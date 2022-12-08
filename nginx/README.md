@@ -13,3 +13,7 @@ The config files for the four load balancing algorithms - round robin, random, w
 
 1. Copy the required lb config file to ```/etc/nginx/conf.d```.
 2. Run ```sudo systemctl restart nginx``` to restart the Nginx LB.
+
+### How to set up the experiment
+
+1. Run the notebook ```nginx_load_balancer_updated.ipynb``` on FABRIC testbed to set up the experiment. 
