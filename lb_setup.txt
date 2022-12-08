@@ -1,0 +1,44 @@
+1. Download P4 tutorials from git on the routers: git clone https://github.com/p4lang/tutorials.git
+2. Add appropriate gateway for routes on clients and server: sudo ip route add 192.168.1.0/24 via 192.168.3.10 dev ens7
+3. Add the MAC for the gateway IPs in the clients and server ARP caches: sudo arp -s 192.168.3.10 52:89:11:C8:D7:4E
+4. Run the P4C to generate a router config: p4c -b bmv2 basic.p4 -o basic.bmv2
+4. Start the bmv2 router: sudo simple_switch --interface 0@ens8 --interface 1@ens7 --interface 2@ens10 --interface 3@ens9 basic.bmv2/basic.json &
+5. Run the simple switch runtime cli: simple_switch_CLI
+6. Add the routes in the CLI: table_add ipv4_lpm ipv4_forward 192.168.2.1/32 => 5E:DF:BF:97:F5:09 0
+
+Note: LB interfaces 
+
+#LB setup
+sudo simple_switch --interface 0@ens8 --interface 1@ens7 --interface 2@ens10 --interface 3@ens9 lb_random.bmv2/lb_random.json
+
+#LB Random
+table_add ecmp_group set_random_select 192.168.3.10/32 => 0 1
+table_add ecmp_group set_random_select 192.168.1.0/24 => 2 2
+table_add ecmp_group set_random_select 192.168.2.0/24 => 3 3
+
+#LB Round Robin
+
+#LB Weighted Round Robin
+
+#LB Connection Hash
+
+
+#LB router 
+table_add ipv4_lpm ipv4_forward 192.168.1.0/24 => 1E:C2:9A:90:9D:8D 0
+table_add ipv4_lpm ipv4_forward 192.168.2.0/24 => 5E:47:E2:4E:BE:DB 1
+table_add ipv4_lpm ipv4_forward 192.168.3.1/32 => 56:21:F2:62:91:EA 2
+
+
+#LB Routes
+table_add ecmp_nhop set_nhop 2 => 1E:C2:9A:90:9D:8D 192.168.1.1 0
+table_add ecmp_nhop set_nhop 3 => 5E:47:E2:4E:BE:DB 192.168.2.1 1
+table_add ecmp_nhop set_nhop 0 => 56:21:F2:62:91:EA 192.168.3.1 2
+table_add ecmp_nhop set_nhop 1 => 56:74:B4:68:66:DC 192.168.3.2 3
+
+#R1 P4 Routing
+table_add ipv4_lpm ipv4_forward 192.168.3.0/24 => <LB LB-R1 interface MAC> 0
+table_add ipv4_lpm ipv4_forward 192.168.1.1/32 => <C1 C1-R1 interface MAC> 0
+
+#R2 P4 Routing
+table_add ipv4_lpm ipv4_forward 192.168.3.0/24 => <LB LB-R2 interface MAC> 0
+table_add ipv4_lpm ipv4_forward 192.168.2.1/32 => <C2 C2-R2 interface MAC> 0
