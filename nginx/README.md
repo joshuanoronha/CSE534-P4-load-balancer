@@ -26,3 +26,4 @@ The config files for the four load balancing algorithms - round robin, random, w
 2. nginx_load_balancer_updated.ipynb creates a setup with 2 servers, 2 clients, 2 routers and 1 Nginx Load balancer.
 3. analysis.ipynb was used to generate few graphs for the report.
 4. nginx_random.conf, nginx_ip_hash.conf, nginx_wrr.conf, nginx_rr.conf are the Nginx config files for different load balancing algorithms.
+5. server_route_config.txt describes the static routes in simple Nginx LB setup.
