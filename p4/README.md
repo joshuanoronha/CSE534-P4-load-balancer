@@ -22,3 +22,10 @@ This repository contains the P4 programs for four load balancing algorithms - ro
 3. Run simple switch to configure the routes ```simple_switch```.
 4. Add the router routes in simple switch mentioned in p4_route_setup.txt file.
 
+### Code Description
+
+1. p4_load_balancer_updated.ipynb creates a setup with 2 servers, 2 clients, 2 routers and 1 P4 Load balancer.
+2. basic.p4 is a P4 program to set up the routers r1 and r2 in P4 and Nginx LB experiment setup (Taken from https://github.com/p4lang/tutorials)
+3. p4-lb-random.p4, p4-lb-hash.p4, p4-lb-wrr.p4, p4-lb-rr.p4 are the P4 programs for different load balancing algorithms.
+4. p4_route_setup.txt contains the instructions to setup IP routing, ARP tables, P4 router and LB routes.
+
