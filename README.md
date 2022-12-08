@@ -4,6 +4,8 @@
 
 ## Send and receive packets
 
+send.py and receive.py use scapy tool to send and receive packets.
+
 1. Install Scapy ```sudo apt install python3-scapy```
 2. Run ```python3 receive``` on servers
 3. Run ```python3 send <LB IP>``` on clients
